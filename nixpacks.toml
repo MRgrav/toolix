@@ -1,9 +1,7 @@
-# Nixpacks configuration for Toolix (Astro + Bun WASM App)
-[providers]
 providers = ["bun"]
 
 [phases.setup]
-nixPkgs = ["bun"]
+nixPkgs = ["bun", "nodejs"]
 
 [phases.install]
 cmds = ["bun install"]
