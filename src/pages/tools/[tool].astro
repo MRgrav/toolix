@@ -1,0 +1,148 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import AdSlot from '../../components/AdSlot';
+import { TOOLS_REGISTRY, type ToolMeta } from '../../utils/toolsRegistry';
+
+// Components
+import VideoToAudioTool from '../../components/tools/VideoToAudioTool';
+import VideoTrimmerTool from '../../components/tools/VideoTrimmerTool';
+import VideoCompressorTool from '../../components/tools/VideoCompressorTool';
+import VideoConverterTool from '../../components/tools/VideoConverterTool';
+import PdfMergeTool from '../../components/tools/PdfMergeTool';
+import PdfSplitTool from '../../components/tools/PdfSplitTool';
+import PdfToImageTool from '../../components/tools/PdfToImageTool';
+import ImageToPdfTool from '../../components/tools/ImageToPdfTool';
+import PdfRotateTool from '../../components/tools/PdfRotateTool';
+import ImageConverterTool from '../../components/tools/ImageConverterTool';
+
+export async function getStaticPaths() {
+  return TOOLS_REGISTRY.map((tool) => ({
+    params: { tool: tool.slug },
+    props: { tool },
+  }));
+}
+
+interface Props {
+  tool: ToolMeta;
+}
+
+const { tool } = Astro.props;
+
+const relatedTools = TOOLS_REGISTRY.filter(
+  (t) => t.category === tool.category && t.id !== tool.id
+).slice(0, 3);
+---
+
+<Layout
+  title={`${tool.name} - Free Online WASM Browser Tool | Toolix`}
+  description={tool.description}
+  keywords={tool.keywords}
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+    
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 text-xs text-slate-400">
+      <a href="/" class="hover:text-purple-300">Home</a>
+      <span>/</span>
+      <a href={`/#${tool.category}`} class="hover:text-purple-300 capitalize">{tool.categoryLabel}</a>
+      <span>/</span>
+      <span class="text-slate-200 font-semibold">{tool.name}</span>
+    </nav>
+
+    <!-- Header Banner -->
+    <div class="text-center max-w-3xl mx-auto space-y-3">
+      <div class="w-16 h-16 rounded-2xl bg-purple-500/10 border border-purple-500/20 text-purple-300 flex items-center justify-center text-3xl mx-auto shadow-inner">
+        {tool.icon}
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+        {tool.name}
+      </h1>
+      <p class="text-sm sm:text-base text-slate-400 leading-relaxed">
+        {tool.description}
+      </p>
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
+        <span>🔒 100% Client-Side • No Uploads</span>
+      </div>
+    </div>
+
+    <!-- Top AdSlot -->
+    <AdSlot client:only="solid-js" format="horizontal" />
+
+    <!-- Interactive Tool Container -->
+    <div class="py-4">
+      {tool.id === 'video-to-audio' && <VideoToAudioTool client:only="solid-js" />}
+      {tool.id === 'video-trimmer' && <VideoTrimmerTool client:only="solid-js" />}
+      {tool.id === 'video-compressor' && <VideoCompressorTool client:only="solid-js" />}
+      {tool.id === 'video-converter' && <VideoConverterTool client:only="solid-js" />}
+      {tool.id === 'pdf-merge' && <PdfMergeTool client:only="solid-js" />}
+      {tool.id === 'pdf-split' && <PdfSplitTool client:only="solid-js" />}
+      {tool.id === 'pdf-to-image' && <PdfToImageTool client:only="solid-js" />}
+      {tool.id === 'image-to-pdf' && <ImageToPdfTool client:only="solid-js" />}
+      {tool.id === 'pdf-rotate' && <PdfRotateTool client:only="solid-js" />}
+      {tool.id === 'image-converter' && <ImageConverterTool client:only="solid-js" />}
+    </div>
+
+    <!-- Features & How it works -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-white/5">
+      
+      <!-- Key Features -->
+      <div class="glass-card rounded-2xl p-6 space-y-4">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <span>✨</span> Key Features
+        </h3>
+        <ul class="space-y-2 text-xs text-slate-300">
+          {tool.features.map((feat) => (
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400">✓</span>
+              <span>{feat}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- How it works -->
+      <div class="glass-card rounded-2xl p-6 space-y-4">
+        <h3 class="text-lg font-bold text-white flex items-center gap-2">
+          <span>⚙️</span> How It Works
+        </h3>
+        <ol class="space-y-3 text-xs text-slate-300">
+          <li class="flex items-start gap-3">
+            <span class="font-mono text-purple-400 font-bold bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">1</span>
+            <span>Select or drag & drop your file into the dropzone above.</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="font-mono text-purple-400 font-bold bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">2</span>
+            <span>Configure output options (bitrate, format, page range, compression quality).</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="font-mono text-purple-400 font-bold bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">3</span>
+            <span>Click process and download your converted file instantly from your browser!</span>
+          </li>
+        </ol>
+      </div>
+
+    </div>
+
+    <!-- Related Tools Grid -->
+    {relatedTools.length > 0 && (
+      <div class="pt-10 space-y-4">
+        <h3 class="text-lg font-bold text-white">Related Tools</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {relatedTools.map((rel) => (
+            <a href={`/tools/${rel.slug}`} class="glass-card p-4 rounded-xl flex items-center gap-3 hover:border-purple-500/40 transition-colors">
+              <div class="text-2xl">{rel.icon}</div>
+              <div>
+                <h4 class="text-xs font-bold text-white">{rel.name}</h4>
+                <p class="text-[10px] text-slate-400 line-clamp-1">{rel.description}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Bottom AdSlot -->
+    <AdSlot client:only="solid-js" format="horizontal" />
+
+  </div>
+</Layout>

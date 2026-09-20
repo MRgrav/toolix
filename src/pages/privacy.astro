@@ -1,0 +1,60 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AdSlot from '../components/AdSlot';
+---
+
+<Layout
+  title="Privacy Policy - Toolix 100% Client-Side WASM Security"
+  description="Learn about our 100% in-browser WebAssembly processing and privacy commitments. Your files never leave your computer."
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+    
+    <div class="text-center space-y-3">
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-white">Privacy Policy</h1>
+      <p class="text-sm text-slate-400">Last updated: September 20, 2026</p>
+    </div>
+
+    <div class="glass-card rounded-2xl p-6 md:p-8 space-y-6 text-xs sm:text-sm text-slate-300 leading-relaxed">
+      
+      <section class="space-y-2">
+        <h2 class="text-lg font-bold text-white gradient-text">1. 100% Client-Side Processing</h2>
+        <p>
+          At <strong>Toolix</strong>, we take privacy seriously. All file conversions, video trimming, PDF merging, audio extractions, and image compression are executed <strong>entirely inside your web browser</strong> using WebAssembly (WASM) and local client JavaScript APIs.
+        </p>
+        <p class="p-3 bg-purple-950/20 border border-purple-500/30 rounded-xl text-purple-200">
+          🔒 <strong>Your files are never uploaded to any external server or cloud storage.</strong> All processing occurs in local browser memory and is discarded when you close the tab.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-lg font-bold text-white gradient-text">2. No File Data Collection</h2>
+        <p>
+          We do not store, inspect, transmit, or copy your files, metadata, documents, videos, photos, or extracted audio tracks.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-lg font-bold text-white gradient-text">3. Google AdSense & Cookies</h2>
+        <p>
+          Toolix is a free service supported by online advertisements served by third-party advertising vendors, including Google AdSense.
+        </p>
+        <ul class="list-disc pl-5 space-y-1 text-slate-400">
+          <li>Third party vendors, including Google, use cookies to serve ads based on a user's prior visits to website.</li>
+          <li>Google's use of advertising cookies enables it and its partners to serve ads to users based on their visit to your sites and/or other sites on the Internet.</li>
+          <li>Users may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" class="text-purple-400 underline">Google Ads Settings</a>.</li>
+        </ul>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="text-lg font-bold text-white gradient-text">4. Analytics & Cookies</h2>
+        <p>
+          We may use anonymized standard web analytics to understand traffic volume and performance metrics. No personally identifiable information (PII) is linked to these metrics.
+        </p>
+      </section>
+
+    </div>
+
+    <AdSlot client:only="solid-js" format="horizontal" />
+
+  </div>
+</Layout>

@@ -1,0 +1,73 @@
+---
+import { TOOLS_REGISTRY } from '../utils/toolsRegistry';
+---
+
+<footer class="mt-auto border-t border-white/10 bg-slate-950/80 backdrop-blur-md">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      
+      <!-- Brand Info -->
+      <div class="md:col-span-1 space-y-4">
+        <a href="/" class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center font-bold text-white text-lg">
+            ⚡
+          </div>
+          <span class="text-lg font-bold text-white">Toolix</span>
+        </a>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Fast, free, and secure online media & PDF tools powered by WebAssembly (WASM). Your files are processed locally in your browser and are never uploaded to any server.
+        </p>
+        <div class="text-xs text-slate-500 font-mono">
+          © {new Date().getFullYear()} Toolix. All rights reserved.
+        </div>
+      </div>
+
+      <!-- Video & Audio Tools -->
+      <div>
+        <h4 class="text-xs font-semibold uppercase tracking-wider text-purple-400 mb-3">Video & Audio</h4>
+        <ul class="space-y-2 text-xs text-slate-400">
+          {TOOLS_REGISTRY.filter(t => t.category === 'video-audio').map(t => (
+            <li>
+              <a href={`/tools/${t.slug}`} class="hover:text-purple-300 transition-colors">
+                {t.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- PDF Tools -->
+      <div>
+        <h4 class="text-xs font-semibold uppercase tracking-wider text-purple-400 mb-3">PDF Utilities</h4>
+        <ul class="space-y-2 text-xs text-slate-400">
+          {TOOLS_REGISTRY.filter(t => t.category === 'pdf').map(t => (
+            <li>
+              <a href={`/tools/${t.slug}`} class="hover:text-purple-300 transition-colors">
+                {t.name}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Image & Legal -->
+      <div>
+        <h4 class="text-xs font-semibold uppercase tracking-wider text-purple-400 mb-3">Legal & Information</h4>
+        <ul class="space-y-2 text-xs text-slate-400">
+          <li>
+            <a href="/privacy" class="hover:text-purple-300 transition-colors">Privacy Policy</a>
+          </li>
+          <li>
+            <a href="/#about" class="hover:text-purple-300 transition-colors">How Client-Side WASM Works</a>
+          </li>
+          <li>
+            <span class="inline-block mt-2 px-2.5 py-1 rounded bg-slate-800 text-[11px] text-slate-300 border border-slate-700">
+              🔒 100% Zero-Server Uploads
+            </span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</footer>

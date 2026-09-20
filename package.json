@@ -12,7 +12,15 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.3.3"
+    "@astrojs/solid-js": "^7.0.2",
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@ffmpeg/util": "^0.12.2",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.3",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^6.3.289",
+    "solid-js": "^1.9.15",
+    "tailwindcss": "^4.3.3"
   },
   "allowScripts": {
     "esbuild": true
