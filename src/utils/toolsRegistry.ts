@@ -5,7 +5,7 @@ export interface ToolMeta {
   description: string;
   category: 'video-audio' | 'pdf' | 'image';
   categoryLabel: string;
-  icon: string;
+  iconName: 'music' | 'scissors' | 'compress' | 'refresh' | 'book' | 'file' | 'image' | 'rotate' | 'video' | 'layers';
   badge?: string;
   keywords: string[];
   features: string[];
@@ -23,16 +23,16 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
     id: 'video-to-audio',
     slug: 'video-to-audio',
     name: 'Video to Audio Extractor',
-    description: 'Extract high-quality MP3, WAV, or AAC audio tracks from any video file 100% in your browser using WASM.',
+    description: 'Extract high-quality MP3, WAV, or AAC audio tracks from any video file instantly in your browser.',
     category: 'video-audio',
     categoryLabel: 'Video & Audio',
-    icon: '🎵',
+    iconName: 'music',
     badge: 'Popular',
-    keywords: ['video to mp3', 'extract audio', 'mp4 to mp3', 'audio converter', 'ffmpeg wasm'],
+    keywords: ['video to mp3', 'extract audio', 'mp4 to mp3', 'audio converter'],
     features: [
       'Extract MP3, WAV, or AAC audio formats',
       'Supports MP4, WebM, MOV, AVI, MKV formats',
-      '100% Client-side processing - files never leave your device',
+      'Client-side processing',
       'Bitrate quality customization (128k - 320k)'
     ]
   },
@@ -43,11 +43,11 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
     description: 'Cut and trim video segments easily with precise start and end time controls.',
     category: 'video-audio',
     categoryLabel: 'Video & Audio',
-    icon: '✂️',
+    iconName: 'scissors',
     keywords: ['trim video', 'cut video', 'crop mp4', 'video editor'],
     features: [
       'Precise start and end timestamp trimming',
-      'Fast client-side rendering with FFmpeg WASM',
+      'Fast client-side rendering',
       'Maintains original video quality',
       'Instant download preview'
     ]
@@ -59,9 +59,8 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
     description: 'Reduce video file sizes drastically while maintaining crisp visual quality.',
     category: 'video-audio',
     categoryLabel: 'Video & Audio',
-    icon: '📉',
-    badge: 'WASM',
-    keywords: ['compress video', 'reduce mp4 size', 'video shrink', 'ffmpeg compression'],
+    iconName: 'compress',
+    keywords: ['compress video', 'reduce mp4 size', 'video shrink', 'video compression'],
     features: [
       'Select compression presets (Small, Medium, High Quality)',
       'Adjust resolution output (1080p, 720p, 480p)',
@@ -76,13 +75,13 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
     description: 'Convert videos seamlessly between MP4, WebM, GIF, AVI, and MKV formats.',
     category: 'video-audio',
     categoryLabel: 'Video & Audio',
-    icon: '🔄',
+    iconName: 'refresh',
     keywords: ['convert video', 'mp4 to webm', 'mp4 to gif', 'video format converter'],
     features: [
       'Convert MP4 to GIF animation clips',
       'Convert WebM to MP4 for wider compatibility',
       'Batch configuration support',
-      'High-performance WASM video encoder'
+      'High-performance video encoder'
     ]
   },
   {
@@ -92,14 +91,14 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
     description: 'Combine multiple PDF documents into a single organized PDF file instantly.',
     category: 'pdf',
     categoryLabel: 'PDF Utilities',
-    icon: '📚',
+    iconName: 'book',
     badge: 'Popular',
     keywords: ['merge pdf', 'combine pdf', 'join pdf files', 'pdf binder'],
     features: [
       'Drag-and-drop multiple PDF files',
       'Reorder files before merging',
       'Preserves original quality, fonts, and images',
-      'Zero server upload - total privacy guarantee'
+      'Zero server storage'
     ]
   },
   {
@@ -109,13 +108,13 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
     description: 'Separate pages from a PDF or split documents into individual single-page files.',
     category: 'pdf',
     categoryLabel: 'PDF Utilities',
-    icon: '📑',
+    iconName: 'file',
     keywords: ['split pdf', 'extract pdf pages', 'separate pdf pages'],
     features: [
       'Extract specific page ranges (e.g. 1-3, 5, 8-10)',
       'Split PDF into individual single pages',
       'Fast client-side execution with pdf-lib',
-      'Instant ZIP download package for multi-page splits'
+      'Instant download package'
     ]
   },
   {
@@ -125,14 +124,13 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
     description: 'Convert PDF pages into high-resolution PNG or JPG image files with live previews.',
     category: 'pdf',
     categoryLabel: 'PDF Utilities',
-    icon: '🖼️',
-    badge: 'New',
+    iconName: 'image',
     keywords: ['pdf to png', 'pdf to jpg', 'pdf image extractor', 'render pdf canvas'],
     features: [
       'Convert every page into PNG or JPG images',
       'Adjust image resolution rendering scale (1x, 2x, 3x)',
       'Interactive canvas thumbnail visualizer',
-      'Download individual images or bundled ZIP'
+      'Download individual images'
     ]
   },
   {
@@ -142,7 +140,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
     description: 'Turn your photos, PNGs, and JPGs into a polished PDF document.',
     category: 'pdf',
     categoryLabel: 'PDF Utilities',
-    icon: '📄',
+    iconName: 'file',
     keywords: ['jpg to pdf', 'png to pdf', 'convert images to pdf', 'photo pdf binder'],
     features: [
       'Support for JPG, PNG, and WebP images',
@@ -158,7 +156,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
     description: 'Rotate upside-down or sideways PDF pages 90°, 180°, or 270° clockwise.',
     category: 'pdf',
     categoryLabel: 'PDF Utilities',
-    icon: '🔄',
+    iconName: 'rotate',
     keywords: ['rotate pdf', 'turn pdf pages', 'fix upside down pdf'],
     features: [
       'Rotate all pages or individual target pages',
@@ -174,7 +172,7 @@ export const TOOLS_REGISTRY: ToolMeta[] = [
     description: 'Convert and compress photos between WebP, PNG, JPG, and AVIF formats.',
     category: 'image',
     categoryLabel: 'Image Tools',
-    icon: '🌄',
+    iconName: 'image',
     keywords: ['compress image', 'png to webp', 'jpg to webp', 'image size reducer'],
     features: [
       'Convert between PNG, JPG, WebP formats',

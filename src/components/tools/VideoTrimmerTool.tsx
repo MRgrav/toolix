@@ -1,6 +1,7 @@
 import { createSignal, Show } from "solid-js";
 import { processFFmpegCommand } from "../../utils/ffmpegEngine";
 import AdSlot from "../AdSlot";
+import { ScissorsIcon, DownloadIcon } from "../Icons";
 
 export default function VideoTrimmerTool() {
   const [file, setFile] = createSignal<File | null>(null);
@@ -36,7 +37,7 @@ export default function VideoTrimmerTool() {
 
     setIsProcessing(true);
     setProgress(0.05);
-    setStatusMsg("Trimming video via WASM...");
+    setStatusMsg("Trimming video...");
 
     try {
       const start = startTime();
@@ -80,10 +81,9 @@ export default function VideoTrimmerTool() {
 
   return (
     <div class="max-w-3xl mx-auto">
-      <div class="glass-card p-6 md:p-8 rounded-2xl border border-white/10 shadow-2xl">
+      <div class="glass-card p-6 rounded-md border border-black/10 dark:border-white/10 shadow-sm">
         
-        {/* Upload Zone */}
-        <div class="relative border-2 border-dashed border-slate-700 hover:border-purple-400 bg-slate-900/40 rounded-xl p-6 text-center cursor-pointer">
+        <div class="relative border-2 border-dashed border-slate-300 dark:border-slate-700/60 hover:border-[#E6986C] bg-slate-100 dark:bg-slate-900/40 rounded-md p-6 text-center cursor-pointer">
           <input
             type="file"
             accept="video/*"
@@ -93,56 +93,54 @@ export default function VideoTrimmerTool() {
           <Show
             when={file()}
             fallback={
-              <div class="space-y-2">
-                <div class="text-3xl">✂️</div>
-                <p class="text-sm font-semibold text-white">Select video to trim</p>
-                <p class="text-xs text-slate-400">Supports MP4, WebM, MOV, AVI</p>
+              <div class="space-y-1.5">
+                <ScissorsIcon class="w-6 h-6 text-[#E6986C] mx-auto" />
+                <p class="text-xs font-bold text-slate-900 dark:text-slate-100">Select video to trim</p>
+                <p class="text-[11px] text-slate-600 dark:text-slate-400">Supports MP4, WebM, MOV, AVI</p>
               </div>
             }
           >
-            <div class="text-sm font-semibold text-purple-300">{file()?.name}</div>
+            <div class="text-xs font-semibold text-[#E6986C]">{file()?.name}</div>
           </Show>
         </div>
 
-        {/* Video Preview & Controls */}
         <Show when={file()}>
-          <div class="mt-6 space-y-4">
+          <div class="mt-4 space-y-3">
             <video
               src={videoUrl()}
               controls
               onLoadedMetadata={handleLoadedMetadata}
-              class="w-full max-h-80 rounded-xl bg-black"
+              class="w-full max-h-64 rounded-md bg-black"
             />
 
-            {/* Timers */}
-            <div class="p-4 rounded-xl bg-slate-900/60 border border-white/5 space-y-4">
-              <div class="flex justify-between text-xs text-slate-300 font-mono">
+            <div class="p-3 rounded-md bg-slate-100 dark:bg-slate-900/60 border border-black/5 dark:border-white/5 space-y-3">
+              <div class="flex justify-between text-[11px] text-slate-700 dark:text-slate-300 font-mono">
                 <span>Start: {formatSeconds(startTime())}</span>
                 <span>Duration: {formatSeconds(Math.max(0, endTime() - startTime()))}</span>
                 <span>End: {formatSeconds(endTime())}</span>
               </div>
 
-              <div class="grid grid-cols-2 gap-4">
+              <div class="grid grid-cols-2 gap-3">
                 <div>
-                  <label class="block text-xs font-medium text-slate-400 mb-1">Start Time (sec)</label>
+                  <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">Start Time (sec)</label>
                   <input
                     type="number"
                     min="0"
                     max={endTime()}
                     value={startTime()}
                     onInput={(e) => setStartTime(Number(e.currentTarget.value))}
-                    class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm"
+                    class="w-full px-2.5 py-1.5 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs"
                   />
                 </div>
                 <div>
-                  <label class="block text-xs font-medium text-slate-400 mb-1">End Time (sec)</label>
+                  <label class="block text-[11px] font-medium text-slate-600 dark:text-slate-400 mb-1">End Time (sec)</label>
                   <input
                     type="number"
                     min={startTime()}
                     max={duration()}
                     value={endTime()}
                     onInput={(e) => setEndTime(Number(e.currentTarget.value))}
-                    class="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white text-sm"
+                    class="w-full px-2.5 py-1.5 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs"
                   />
                 </div>
               </div>
@@ -151,30 +149,30 @@ export default function VideoTrimmerTool() {
             <button
               onClick={handleTrim}
               disabled={isProcessing()}
-              class="w-full py-3 rounded-xl font-bold text-white gradient-bg shadow-lg shadow-purple-600/30 hover:opacity-95 disabled:opacity-50 transition-all text-sm"
+              class="w-full py-2.5 rounded-md font-bold text-slate-950 accent-bg-muskmelon hover:opacity-90 disabled:opacity-50 transition-all text-xs"
             >
               {isProcessing() ? `Trimming... (${Math.round(progress() * 100)}%)` : "Trim Video Now"}
             </button>
           </div>
         </Show>
 
-        {/* Result */}
         <Show when={result()}>
-          <div class="mt-6 p-6 rounded-xl bg-emerald-950/20 border border-emerald-500/30 text-center space-y-4">
-            <h4 class="text-sm font-bold text-emerald-300">Trimmed Video Ready!</h4>
-            <video controls src={result()?.url} class="w-full max-h-64 rounded-lg bg-black mx-auto" />
+          <div class="mt-4 p-4 rounded-md bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-500/30 text-center space-y-3">
+            <h4 class="text-xs font-bold text-emerald-400">Trimmed Video Ready</h4>
+            <video controls src={result()?.url} class="w-full max-h-48 rounded bg-black mx-auto" />
             <a
               href={result()?.url}
               download={result()?.filename}
-              class="inline-block px-6 py-2.5 rounded-xl font-bold text-white bg-emerald-600 hover:bg-emerald-500 text-xs shadow-lg"
+              class="inline-flex items-center gap-1.5 px-4 py-2 rounded font-bold text-white bg-emerald-600 hover:bg-emerald-500 text-xs"
             >
-              ⬇️ Download Trimmed Video
+              <DownloadIcon class="w-4 h-4" />
+              <span>Download Trimmed Video</span>
             </a>
           </div>
         </Show>
 
       </div>
-      <AdSlot format="horizontal" class="mt-8" />
+      <AdSlot format="horizontal" class="mt-6" />
     </div>
   );
 }

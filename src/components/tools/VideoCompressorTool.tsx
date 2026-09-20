@@ -1,6 +1,7 @@
 import { createSignal, Show } from "solid-js";
 import { processFFmpegCommand } from "../../utils/ffmpegEngine";
 import AdSlot from "../AdSlot";
+import { CompressIcon, DownloadIcon, CheckIcon } from "../Icons";
 
 export default function VideoCompressorTool() {
   const [file, setFile] = createSignal<File | null>(null);
@@ -24,7 +25,7 @@ export default function VideoCompressorTool() {
 
     setIsProcessing(true);
     setProgress(0.05);
-    setStatusMsg("Compressing video via FFmpeg WASM...");
+    setStatusMsg("Compressing video...");
 
     try {
       const crfValue = preset() === "low" ? "32" : preset() === "medium" ? "28" : "24";
@@ -59,24 +60,26 @@ export default function VideoCompressorTool() {
 
   return (
     <div class="max-w-3xl mx-auto">
-      <div class="glass-card p-6 md:p-8 rounded-2xl border border-white/10 shadow-2xl">
-        <div class="relative border-2 border-dashed border-slate-700 hover:border-purple-400 bg-slate-900/40 rounded-xl p-6 text-center cursor-pointer">
+      <div class="glass-card p-6 md:p-8 rounded-md border border-slate-200 dark:border-white/10 shadow-sm space-y-6">
+        <div class="relative border-2 border-dashed border-slate-300 dark:border-slate-700/60 hover:border-[#FA9A85] bg-slate-50 dark:bg-slate-900/40 rounded-md p-6 text-center cursor-pointer transition-colors">
           <input type="file" accept="video/*" onChange={handleFileSelect} class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
           <Show when={file()} fallback={
-            <div>
-              <div class="text-3xl mb-2">📉</div>
-              <p class="text-sm font-semibold text-white">Select video to compress</p>
-              <p class="text-xs text-slate-400">Drastically reduce file size inside browser</p>
+            <div class="flex flex-col items-center">
+              <div class="w-12 h-12 rounded-full bg-[#FA9A85]/10 text-[#FA9A85] flex items-center justify-center mb-3">
+                <CompressIcon class="w-6 h-6" />
+              </div>
+              <p class="text-sm font-bold text-slate-900 dark:text-slate-100">Select video to compress</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Drastically reduce file size inside browser</p>
             </div>
           }>
-            <p class="text-sm font-semibold text-purple-300">{file()?.name} ({( (file()?.size || 0) / (1024 * 1024) ).toFixed(2)} MB)</p>
+            <p class="text-xs font-semibold text-[#FA9A85]">{file()?.name} ({( (file()?.size || 0) / (1024 * 1024) ).toFixed(2)} MB)</p>
           </Show>
         </div>
 
         <Show when={file()}>
-          <div class="mt-6 space-y-4">
+          <div class="space-y-4">
             <div>
-              <label class="block text-xs font-medium text-slate-400 mb-2">Compression Level</label>
+              <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">Compression Level</label>
               <div class="grid grid-cols-3 gap-3">
                 {[
                   { id: "high", label: "High Quality", desc: "Slight compression" },
@@ -85,12 +88,14 @@ export default function VideoCompressorTool() {
                 ].map((p) => (
                   <button
                     onClick={() => setPreset(p.id as any)}
-                    class={`p-3 rounded-xl border text-left transition-all ${
-                      preset() === p.id ? "bg-purple-600/20 border-purple-500 text-white" : "bg-slate-900 border-slate-800 text-slate-400"
+                    class={`p-3 rounded-md border text-left transition-all ${
+                      preset() === p.id
+                        ? "bg-[#FA9A85] border-[#FA9A85] text-slate-950 shadow-sm"
+                        : "bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300"
                     }`}
                   >
-                    <div class="text-xs font-bold text-white">{p.label}</div>
-                    <div class="text-[10px] text-slate-400 mt-1">{p.desc}</div>
+                    <div class="text-xs font-bold">{p.label}</div>
+                    <div class="text-[10px] opacity-80 mt-1">{p.desc}</div>
                   </button>
                 ))}
               </div>
@@ -99,7 +104,7 @@ export default function VideoCompressorTool() {
             <button
               onClick={handleCompress}
               disabled={isProcessing()}
-              class="w-full py-3.5 rounded-xl font-bold text-white gradient-bg shadow-lg shadow-purple-600/30 hover:opacity-95 disabled:opacity-50 transition-all text-sm"
+              class="w-full py-3 rounded-md font-bold text-slate-950 accent-bg-peach hover:opacity-90 disabled:opacity-50 transition-all text-xs shadow-sm"
             >
               {isProcessing() ? `Compressing... (${Math.round(progress() * 100)}%)` : "Compress Video Now"}
             </button>
@@ -107,13 +112,15 @@ export default function VideoCompressorTool() {
         </Show>
 
         <Show when={result()}>
-          <div class="mt-6 p-6 rounded-xl bg-emerald-950/20 border border-emerald-500/30 text-center space-y-3">
-            <h4 class="text-sm font-bold text-emerald-300">Compression Complete!</h4>
-            <div class="text-xs text-slate-300 font-mono">
+          <div class="p-5 rounded-md bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-500/30 text-center space-y-3">
+            <h4 class="text-sm font-bold text-emerald-700 dark:text-emerald-400 flex items-center justify-center gap-1.5">
+              <CheckIcon class="w-4 h-4" /> Compression Complete!
+            </h4>
+            <div class="text-xs text-slate-600 dark:text-slate-300 font-mono">
               Original: {( (file()?.size || 0) / (1024 * 1024) ).toFixed(2)} MB ➔ New: {( (result()?.size || 0) / (1024 * 1024) ).toFixed(2)} MB
             </div>
-            <a href={result()?.url} download={result()?.filename} class="inline-block px-6 py-2.5 rounded-xl font-bold text-white bg-emerald-600 hover:bg-emerald-500 text-xs">
-              ⬇️ Download Compressed Video
+            <a href={result()?.url} download={result()?.filename} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-md font-bold text-white bg-emerald-600 hover:bg-emerald-500 text-xs shadow-sm">
+              <DownloadIcon class="w-4 h-4" /> Download Compressed Video
             </a>
           </div>
         </Show>

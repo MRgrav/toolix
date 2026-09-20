@@ -1,5 +1,6 @@
 import { createSignal, Show } from "solid-js";
 import AdSlot from "../AdSlot";
+import { ImageIcon, DownloadIcon, CheckIcon } from "../Icons";
 
 export default function ImageConverterTool() {
   const [file, setFile] = createSignal<File | null>(null);
@@ -51,34 +52,38 @@ export default function ImageConverterTool() {
 
   return (
     <div class="max-w-3xl mx-auto">
-      <div class="glass-card p-6 md:p-8 rounded-2xl border border-white/10 shadow-2xl space-y-6">
-        <div class="relative border-2 border-dashed border-slate-700 hover:border-purple-400 bg-slate-900/40 rounded-xl p-8 text-center cursor-pointer">
+      <div class="glass-card p-6 md:p-8 rounded-md border border-slate-200 dark:border-white/10 shadow-sm space-y-6">
+        <div class="relative border-2 border-dashed border-slate-300 dark:border-slate-700/60 hover:border-[#FA9A85] bg-slate-50 dark:bg-slate-900/40 rounded-md p-8 text-center cursor-pointer transition-colors">
           <input type="file" accept="image/*" onChange={handleFileSelect} class="absolute inset-0 opacity-0 cursor-pointer w-full h-full" />
           <Show when={file()} fallback={
-            <div>
-              <div class="text-3xl mb-2">🌄</div>
-              <p class="text-base font-semibold text-white">Select Image to Convert & Compress</p>
-              <p class="text-xs text-slate-400">Convert between WebP, PNG, and JPG formats</p>
+            <div class="flex flex-col items-center">
+              <div class="w-12 h-12 rounded-full bg-[#FA9A85]/10 text-[#FA9A85] flex items-center justify-center mb-3">
+                <ImageIcon class="w-6 h-6" />
+              </div>
+              <p class="text-sm font-bold text-slate-900 dark:text-slate-100">Select Image to Convert & Compress</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Convert between WebP, PNG, and JPG formats</p>
             </div>
           }>
-            <p class="text-sm font-semibold text-purple-300">{file()?.name} ({( (file()?.size || 0) / 1024 ).toFixed(1)} KB)</p>
+            <p class="text-xs font-semibold text-[#FA9A85]">{file()?.name} ({( (file()?.size || 0) / 1024 ).toFixed(1)} KB)</p>
           </Show>
         </div>
 
         <Show when={file()}>
           <div class="space-y-4">
             <div>
-              <label class="block text-xs font-medium text-slate-400 mb-2">Target Format</label>
+              <label class="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">Target Format</label>
               <div class="grid grid-cols-3 gap-3">
                 {[
-                  { fmt: "image/webp", label: "WebP (Recommended)" },
+                  { fmt: "image/webp", label: "WebP (Best)" },
                   { fmt: "image/jpeg", label: "JPG / JPEG" },
                   { fmt: "image/png", label: "PNG Lossless" }
                 ].map((opt) => (
                   <button
                     onClick={() => setTargetFormat(opt.fmt as any)}
-                    class={`py-2.5 text-xs font-bold rounded-xl border transition-all ${
-                      targetFormat() === opt.fmt ? "bg-purple-600 border-purple-500 text-white" : "bg-slate-900 border-slate-800 text-slate-400"
+                    class={`py-2 text-xs font-bold rounded border transition-all ${
+                      targetFormat() === opt.fmt
+                        ? "bg-[#FA9A85] border-[#FA9A85] text-white shadow-sm"
+                        : "bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300"
                     }`}
                   >
                     {opt.label}
@@ -89,9 +94,9 @@ export default function ImageConverterTool() {
 
             <Show when={targetFormat() !== "image/png"}>
               <div>
-                <div class="flex justify-between text-xs text-slate-400 mb-1">
+                <div class="flex justify-between text-xs text-slate-600 dark:text-slate-400 mb-1">
                   <span>Compression Quality</span>
-                  <span class="font-mono text-purple-400">{quality()}%</span>
+                  <span class="font-mono text-[#FA9A85] font-semibold">{quality()}%</span>
                 </div>
                 <input
                   type="range"
@@ -99,7 +104,7 @@ export default function ImageConverterTool() {
                   max="100"
                   value={quality()}
                   onInput={(e) => setQuality(Number(e.currentTarget.value))}
-                  class="w-full accent-purple-500 cursor-pointer"
+                  class="w-full accent-[#FA9A85] cursor-pointer"
                 />
               </div>
             </Show>
@@ -107,7 +112,7 @@ export default function ImageConverterTool() {
             <button
               onClick={handleConvert}
               disabled={isProcessing()}
-              class="w-full py-3.5 rounded-xl font-bold text-white gradient-bg shadow-lg shadow-purple-600/30 hover:opacity-95 disabled:opacity-50 transition-all text-sm"
+              class="w-full py-3 rounded-md font-bold text-slate-950 accent-bg-peach hover:opacity-90 disabled:opacity-50 transition-all text-xs shadow-sm"
             >
               {isProcessing() ? "Converting Image..." : "Convert Image Now"}
             </button>
@@ -115,16 +120,18 @@ export default function ImageConverterTool() {
         </Show>
 
         <Show when={result()}>
-          <div class="p-6 rounded-xl bg-emerald-950/20 border border-emerald-500/30 text-center space-y-4">
-            <h4 class="text-base font-bold text-emerald-300">Image Conversion Ready!</h4>
-            <p class="text-xs text-slate-300 font-mono">
+          <div class="p-5 rounded-md bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-500/30 text-center space-y-3">
+            <h4 class="text-sm font-bold text-emerald-700 dark:text-emerald-400 flex items-center justify-center gap-1.5">
+              <CheckIcon class="w-4 h-4" /> Image Conversion Ready!
+            </h4>
+            <p class="text-xs text-slate-600 dark:text-slate-300 font-mono">
               Original: {( (file()?.size || 0) / 1024 ).toFixed(1)} KB ➔ Converted: {( (result()?.size || 0) / 1024 ).toFixed(1)} KB
             </p>
             <div class="max-w-xs mx-auto">
-              <img src={result()?.url} alt="Result" class="max-h-48 rounded-lg mx-auto bg-slate-950 p-2 border border-slate-800" />
+              <img src={result()?.url} alt="Result" class="max-h-48 rounded mx-auto bg-slate-200 dark:bg-slate-900 p-2 border border-slate-300 dark:border-slate-800" />
             </div>
-            <a href={result()?.url} download={result()?.filename} class="inline-block px-6 py-3 rounded-xl font-bold text-white bg-emerald-600 hover:bg-emerald-500 text-sm shadow-lg">
-              ⬇️ Download {result()?.filename}
+            <a href={result()?.url} download={result()?.filename} class="inline-flex items-center gap-2 px-5 py-2.5 rounded-md font-bold text-white bg-emerald-600 hover:bg-emerald-500 text-xs shadow-sm">
+              <DownloadIcon class="w-4 h-4" /> Download {result()?.filename}
             </a>
           </div>
         </Show>

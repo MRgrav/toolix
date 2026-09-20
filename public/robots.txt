@@ -1,0 +1,5 @@
+# Toolix Robots.txt
+User-agent: *
+Allow: /
+
+Sitemap: https://toolix.deolang.com/sitemap.xml

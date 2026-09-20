@@ -2,33 +2,33 @@
 import { TOOLS_REGISTRY } from '../utils/toolsRegistry';
 ---
 
-<footer class="mt-auto border-t border-white/10 bg-slate-950/80 backdrop-blur-md">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<footer class="mt-auto border-t border-slate-200 dark:border-white/10 bg-slate-100 dark:bg-slate-950/90 backdrop-blur-md">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
       
       <!-- Brand Info -->
-      <div class="md:col-span-1 space-y-4">
+      <div class="md:col-span-1 space-y-3">
         <a href="/" class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-lg gradient-bg flex items-center justify-center font-bold text-white text-lg">
-            ⚡
+          <div class="w-7 h-7 rounded-md gradient-bg flex items-center justify-center font-bold text-slate-950 text-sm">
+            T
           </div>
-          <span class="text-lg font-bold text-white">Toolix</span>
+          <span class="text-base font-bold text-slate-900 dark:text-slate-100">Toolix</span>
         </a>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Fast, free, and secure online media & PDF tools powered by WebAssembly (WASM). Your files are processed locally in your browser and are never uploaded to any server.
+        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+          Fast, simple, and free online media & PDF tools powered by client-side browser processing.
         </p>
-        <div class="text-xs text-slate-500 font-mono">
+        <div class="text-[11px] text-slate-500 font-mono">
           © {new Date().getFullYear()} Toolix. All rights reserved.
         </div>
       </div>
 
       <!-- Video & Audio Tools -->
       <div>
-        <h4 class="text-xs font-semibold uppercase tracking-wider text-purple-400 mb-3">Video & Audio</h4>
-        <ul class="space-y-2 text-xs text-slate-400">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-[#FA9A85] mb-3">Video & Audio</h4>
+        <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-400">
           {TOOLS_REGISTRY.filter(t => t.category === 'video-audio').map(t => (
             <li>
-              <a href={`/tools/${t.slug}`} class="hover:text-purple-300 transition-colors">
+              <a href={`/tools/${t.slug}`} class="hover:text-[#FA9A85] transition-colors">
                 {t.name}
               </a>
             </li>
@@ -38,11 +38,11 @@ import { TOOLS_REGISTRY } from '../utils/toolsRegistry';
 
       <!-- PDF Tools -->
       <div>
-        <h4 class="text-xs font-semibold uppercase tracking-wider text-purple-400 mb-3">PDF Utilities</h4>
-        <ul class="space-y-2 text-xs text-slate-400">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-[#E6986C] mb-3">PDF Utilities</h4>
+        <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-400">
           {TOOLS_REGISTRY.filter(t => t.category === 'pdf').map(t => (
             <li>
-              <a href={`/tools/${t.slug}`} class="hover:text-purple-300 transition-colors">
+              <a href={`/tools/${t.slug}`} class="hover:text-[#E6986C] transition-colors">
                 {t.name}
               </a>
             </li>
@@ -50,20 +50,15 @@ import { TOOLS_REGISTRY } from '../utils/toolsRegistry';
         </ul>
       </div>
 
-      <!-- Image & Legal -->
+      <!-- Information -->
       <div>
-        <h4 class="text-xs font-semibold uppercase tracking-wider text-purple-400 mb-3">Legal & Information</h4>
-        <ul class="space-y-2 text-xs text-slate-400">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-[#B0A6DF] mb-3">Information</h4>
+        <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-400">
           <li>
-            <a href="/privacy" class="hover:text-purple-300 transition-colors">Privacy Policy</a>
+            <a href="/privacy" class="hover:text-[#B0A6DF] transition-colors">Privacy Policy</a>
           </li>
           <li>
-            <a href="/#about" class="hover:text-purple-300 transition-colors">How Client-Side WASM Works</a>
-          </li>
-          <li>
-            <span class="inline-block mt-2 px-2.5 py-1 rounded bg-slate-800 text-[11px] text-slate-300 border border-slate-700">
-              🔒 100% Zero-Server Uploads
-            </span>
+            <a href="/#about" class="hover:text-[#B0A6DF] transition-colors">About Toolix</a>
           </li>
         </ul>
       </div>

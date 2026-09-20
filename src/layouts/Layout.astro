@@ -12,11 +12,11 @@ interface Props {
 }
 
 const {
-  title = "Toolix - Free Client-Side WASM Media & PDF Tools",
-  description = "Fast, free, and 100% private online web tools for Video to MP3 audio extraction, PDF merging, PDF splitting, image compression, and video trimming. No server uploads.",
-  keywords = ["wasm tools", "ffmpeg browser", "pdf merge", "pdf split", "video to mp3", "free pdf tools", "client side converter"],
+  title = "Toolix - Free Online Media & PDF Tools",
+  description = "Fast, free online browser tools for Video to MP3 extraction, PDF merging, PDF splitting, image compression, and video trimming.",
+  keywords = ["online tools", "pdf merge", "pdf split", "video to mp3", "free pdf tools", "image converter"],
   canonicalUrl = Astro.url.href,
-  adSensePublisherId = "ca-pub-0000000000000000" // Replace with actual Google AdSense Pub ID when ready
+  adSensePublisherId = "ca-pub-0000000000000000"
 } = Astro.props;
 
 const jsonLd = {
@@ -54,16 +54,22 @@ const jsonLd = {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalUrl} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
-
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Theme Initialization Script -->
+    <script is:inline>
+      (function() {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'light') {
+          document.documentElement.classList.remove('dark');
+        } else {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
 
     <!-- Google AdSense Script Placeholder -->
     {adSensePublisherId && adSensePublisherId !== 'ca-pub-0000000000000000' && (
@@ -73,17 +79,14 @@ const jsonLd = {
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
-  <body class="bg-[#0b0f19] text-slate-100 font-sans antialiased min-h-screen flex flex-col">
+  <body class="bg-slate-50 dark:bg-[#0a0d14] text-slate-900 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col transition-colors">
     
-    <!-- Header Navbar -->
     <Navbar />
 
-    <!-- Main Content Container -->
     <main class="flex-grow">
       <slot />
     </main>
 
-    <!-- Footer -->
     <Footer />
 
   </body>

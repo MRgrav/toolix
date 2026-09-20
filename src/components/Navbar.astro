@@ -1,21 +1,19 @@
 ---
 import { CATEGORIES } from '../utils/toolsRegistry';
+import ThemeToggle from './ThemeToggle';
 ---
 
-<header class="sticky top-0 z-50 glass-panel border-b border-white/10">
+<header class="sticky top-0 z-50 glass-panel border-b border-slate-200 dark:border-white/10">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       
       <!-- Logo -->
       <a href="/" class="flex items-center gap-2 group">
-        <div class="w-9 h-9 rounded-xl gradient-bg flex items-center justify-center font-black text-white text-xl shadow-lg shadow-purple-500/20 group-hover:scale-105 transition-transform">
-          ⚡
+        <div class="w-8 h-8 rounded-md gradient-bg flex items-center justify-center font-bold text-slate-950 text-base shadow-sm group-hover:scale-105 transition-transform">
+          T
         </div>
-        <span class="text-xl font-extrabold tracking-tight text-white group-hover:text-purple-300 transition-colors">
+        <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100 group-hover:text-[#FA9A85] transition-colors">
           Tool<span class="gradient-text">ix</span>
-        </span>
-        <span class="ml-1 text-[10px] uppercase font-bold tracking-widest px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 border border-purple-500/20">
-          WASM Free
         </span>
       </a>
 
@@ -23,29 +21,26 @@ import { CATEGORIES } from '../utils/toolsRegistry';
       <nav class="hidden md:flex items-center gap-1">
         <a 
           href="/" 
-          class="px-3.5 py-1.5 rounded-lg text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-colors"
+          class="px-3 py-1.5 rounded-md text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
         >
           All Tools
         </a>
         {CATEGORIES.filter(c => c.id !== 'all').map((cat) => (
           <a 
             href={`/#${cat.id}`} 
-            class="px-3.5 py-1.5 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-white/5 transition-colors"
+            class="px-3 py-1.5 rounded-md text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-950 dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
           >
             {cat.label}
           </a>
         ))}
       </nav>
 
-      <!-- Badge / Privacy Assurance -->
-      <div class="flex items-center gap-3">
-        <div class="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-medium">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          100% In-Browser Privacy
-        </div>
+      <!-- Theme Toggle & Action -->
+      <div class="flex items-center gap-2">
+        <ThemeToggle client:only="solid-js" />
         <a 
           href="/" 
-          class="px-4 py-2 rounded-xl text-xs font-semibold text-white gradient-bg shadow-md shadow-purple-600/20 hover:opacity-95 transition-opacity"
+          class="px-3.5 py-1.5 rounded-md text-xs font-bold text-slate-950 accent-bg-peach shadow-sm hover:opacity-90 transition-opacity"
         >
           Explore Tools
         </a>

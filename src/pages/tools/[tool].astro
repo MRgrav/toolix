@@ -2,6 +2,16 @@
 import Layout from '../../layouts/Layout.astro';
 import AdSlot from '../../components/AdSlot';
 import { TOOLS_REGISTRY, type ToolMeta } from '../../utils/toolsRegistry';
+import { 
+  MusicIcon, 
+  ScissorsIcon, 
+  CompressIcon, 
+  RefreshIcon, 
+  BookOpenIcon, 
+  FileTextIcon, 
+  ImageIcon, 
+  RotateIcon 
+} from '../../components/Icons';
 
 // Components
 import VideoToAudioTool from '../../components/tools/VideoToAudioTool';
@@ -31,45 +41,93 @@ const { tool } = Astro.props;
 const relatedTools = TOOLS_REGISTRY.filter(
   (t) => t.category === tool.category && t.id !== tool.id
 ).slice(0, 3);
+
+// JSON-LD Structured Data Schema
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": `How to use ${tool.name}`,
+  "description": tool.description,
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Select File",
+      "text": "Choose or drag and drop your file into the dropzone."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Configure Options",
+      "text": "Select desired output format, quality, or target page ranges."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Process & Download",
+      "text": "Click process to compile locally and download your result instantly."
+    }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": `Is ${tool.name} completely free to use?`,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, Toolix is 100% free with no file size limits or subscription paywalls."
+      }
+    }
+  ]
+};
 ---
 
 <Layout
-  title={`${tool.name} - Free Online WASM Browser Tool | Toolix`}
-  description={tool.description}
+  title={`${tool.name} Online Free - Toolix`}
+  description={`Free online ${tool.name}. ${tool.description} No file limits required.`}
   keywords={tool.keywords}
 >
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+  <!-- Rich Snippet Schemas -->
+  <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
     
     <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 text-xs text-slate-400">
-      <a href="/" class="hover:text-purple-300">Home</a>
+    <nav class="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-400" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-[#FA9A85]">Home</a>
       <span>/</span>
-      <a href={`/#${tool.category}`} class="hover:text-purple-300 capitalize">{tool.categoryLabel}</a>
+      <a href={`/#${tool.category}`} class="hover:text-[#FA9A85] capitalize">{tool.categoryLabel}</a>
       <span>/</span>
-      <span class="text-slate-200 font-semibold">{tool.name}</span>
+      <span class="text-slate-800 dark:text-slate-200 font-semibold">{tool.name}</span>
     </nav>
 
     <!-- Header Banner -->
-    <div class="text-center max-w-3xl mx-auto space-y-3">
-      <div class="w-16 h-16 rounded-2xl bg-purple-500/10 border border-purple-500/20 text-purple-300 flex items-center justify-center text-3xl mx-auto shadow-inner">
-        {tool.icon}
+    <header class="text-center max-w-3xl mx-auto space-y-2">
+      <div class="w-12 h-12 rounded-md bg-slate-200 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700/40 text-[#FA9A85] flex items-center justify-center mx-auto shadow-sm">
+        {tool.iconName === 'music' && <MusicIcon class="w-6 h-6 text-[#FA9A85]" />}
+        {tool.iconName === 'scissors' && <ScissorsIcon class="w-6 h-6 text-[#E6986C]" />}
+        {tool.iconName === 'compress' && <CompressIcon class="w-6 h-6 text-[#B0A6DF]" />}
+        {tool.iconName === 'refresh' && <RefreshIcon class="w-6 h-6 text-[#FFEDA8]" />}
+        {tool.iconName === 'book' && <BookOpenIcon class="w-6 h-6 text-[#FA9A85]" />}
+        {tool.iconName === 'file' && <FileTextIcon class="w-6 h-6 text-[#E6986C]" />}
+        {tool.iconName === 'image' && <ImageIcon class="w-6 h-6 text-[#B0A6DF]" />}
+        {tool.iconName === 'rotate' && <RotateIcon class="w-6 h-6 text-[#FFEDA8]" />}
       </div>
-      <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+      <h1 class="text-2xl sm:text-4xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
         {tool.name}
       </h1>
-      <p class="text-sm sm:text-base text-slate-400 leading-relaxed">
+      <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
         {tool.description}
       </p>
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold">
-        <span>🔒 100% Client-Side • No Uploads</span>
-      </div>
-    </div>
+    </header>
 
     <!-- Top AdSlot -->
     <AdSlot client:only="solid-js" format="horizontal" />
 
     <!-- Interactive Tool Container -->
-    <div class="py-4">
+    <section aria-label="Tool Application Interface" class="py-2">
       {tool.id === 'video-to-audio' && <VideoToAudioTool client:only="solid-js" />}
       {tool.id === 'video-trimmer' && <VideoTrimmerTool client:only="solid-js" />}
       {tool.id === 'video-compressor' && <VideoCompressorTool client:only="solid-js" />}
@@ -80,65 +138,95 @@ const relatedTools = TOOLS_REGISTRY.filter(
       {tool.id === 'image-to-pdf' && <ImageToPdfTool client:only="solid-js" />}
       {tool.id === 'pdf-rotate' && <PdfRotateTool client:only="solid-js" />}
       {tool.id === 'image-converter' && <ImageConverterTool client:only="solid-js" />}
-    </div>
+    </section>
 
-    <!-- Features & How it works -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-white/5">
+    <!-- Features & How it works SEO Sections -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-black/5 dark:border-white/5">
       
       <!-- Key Features -->
-      <div class="glass-card rounded-2xl p-6 space-y-4">
-        <h3 class="text-lg font-bold text-white flex items-center gap-2">
-          <span>✨</span> Key Features
-        </h3>
-        <ul class="space-y-2 text-xs text-slate-300">
+      <section class="glass-card rounded-md p-5 space-y-3">
+        <h2 class="text-sm font-bold text-slate-900 dark:text-slate-100">
+          Key Features & Advantages
+        </h2>
+        <ul class="space-y-2 text-xs text-slate-700 dark:text-slate-300">
           {tool.features.map((feat) => (
             <li class="flex items-start gap-2">
-              <span class="text-emerald-400">✓</span>
+              <span class="text-[#FA9A85] font-bold">•</span>
               <span>{feat}</span>
             </li>
           ))}
         </ul>
-      </div>
+      </section>
 
       <!-- How it works -->
-      <div class="glass-card rounded-2xl p-6 space-y-4">
-        <h3 class="text-lg font-bold text-white flex items-center gap-2">
-          <span>⚙️</span> How It Works
-        </h3>
-        <ol class="space-y-3 text-xs text-slate-300">
-          <li class="flex items-start gap-3">
-            <span class="font-mono text-purple-400 font-bold bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">1</span>
-            <span>Select or drag & drop your file into the dropzone above.</span>
+      <section class="glass-card rounded-md p-5 space-y-3">
+        <h2 class="text-sm font-bold text-slate-900 dark:text-slate-100">
+          How to Use {tool.name}
+        </h2>
+        <ol class="space-y-2 text-xs text-slate-700 dark:text-slate-300">
+          <li class="flex items-start gap-2.5">
+            <span class="font-mono text-[#FA9A85] font-bold bg-[#FA9A85]/10 px-1.5 py-0.5 rounded text-[11px]">1</span>
+            <span>Select or drag & drop your file into the dropzone box above.</span>
           </li>
-          <li class="flex items-start gap-3">
-            <span class="font-mono text-purple-400 font-bold bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">2</span>
-            <span>Configure output options (bitrate, format, page range, compression quality).</span>
+          <li class="flex items-start gap-2.5">
+            <span class="font-mono text-[#FA9A85] font-bold bg-[#FA9A85]/10 px-1.5 py-0.5 rounded text-[11px]">2</span>
+            <span>Customize output options (format, resolution, compression bitrate, or page targets).</span>
           </li>
-          <li class="flex items-start gap-3">
-            <span class="font-mono text-purple-400 font-bold bg-purple-500/10 px-2 py-0.5 rounded border border-purple-500/20">3</span>
-            <span>Click process and download your converted file instantly from your browser!</span>
+          <li class="flex items-start gap-2.5">
+            <span class="font-mono text-[#FA9A85] font-bold bg-[#FA9A85]/10 px-1.5 py-0.5 rounded text-[11px]">3</span>
+            <span>Click process to generate your file and download instantly.</span>
           </li>
         </ol>
-      </div>
+      </section>
 
     </div>
 
+    <!-- Frequently Asked Questions (FAQ Section) -->
+    <section class="glass-card rounded-md p-5 space-y-3">
+      <h2 class="text-sm font-bold text-slate-900 dark:text-slate-100">
+        Frequently Asked Questions
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-700 dark:text-slate-300">
+        <div class="space-y-1">
+          <h3 class="font-bold text-slate-900 dark:text-slate-100 text-xs">Is there any file size limit?</h3>
+          <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+            File processing runs directly inside your browser window, with zero artificial caps.
+          </p>
+        </div>
+        <div class="space-y-1">
+          <h3 class="font-bold text-slate-900 dark:text-slate-100 text-xs">Is registration required?</h3>
+          <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+            No account, sign-up, or credit card is required.
+          </p>
+        </div>
+      </div>
+    </section>
+
     <!-- Related Tools Grid -->
     {relatedTools.length > 0 && (
-      <div class="pt-10 space-y-4">
-        <h3 class="text-lg font-bold text-white">Related Tools</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <section class="pt-4 space-y-3">
+        <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Related Media & PDF Tools</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {relatedTools.map((rel) => (
-            <a href={`/tools/${rel.slug}`} class="glass-card p-4 rounded-xl flex items-center gap-3 hover:border-purple-500/40 transition-colors">
-              <div class="text-2xl">{rel.icon}</div>
+            <a href={`/tools/${rel.slug}`} class="glass-card p-3 rounded-md flex items-center gap-3 hover:border-[#FA9A85]/40 transition-colors">
+              <div class="w-7 h-7 rounded bg-slate-200 dark:bg-slate-800 flex items-center justify-center text-[#FA9A85]">
+                {rel.iconName === 'music' && <MusicIcon class="w-4 h-4" />}
+                {rel.iconName === 'scissors' && <ScissorsIcon class="w-4 h-4" />}
+                {rel.iconName === 'compress' && <CompressIcon class="w-4 h-4" />}
+                {rel.iconName === 'refresh' && <RefreshIcon class="w-4 h-4" />}
+                {rel.iconName === 'book' && <BookOpenIcon class="w-4 h-4" />}
+                {rel.iconName === 'file' && <FileTextIcon class="w-4 h-4" />}
+                {rel.iconName === 'image' && <ImageIcon class="w-4 h-4" />}
+                {rel.iconName === 'rotate' && <RotateIcon class="w-4 h-4" />}
+              </div>
               <div>
-                <h4 class="text-xs font-bold text-white">{rel.name}</h4>
-                <p class="text-[10px] text-slate-400 line-clamp-1">{rel.description}</p>
+                <h4 class="text-xs font-bold text-slate-900 dark:text-slate-100">{rel.name}</h4>
+                <p class="text-[10px] text-slate-600 dark:text-slate-400 line-clamp-1">{rel.description}</p>
               </div>
             </a>
           ))}
         </div>
-      </div>
+      </section>
     )}
 
     <!-- Bottom AdSlot -->

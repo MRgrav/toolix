@@ -2,86 +2,80 @@
 import Layout from '../layouts/Layout.astro';
 import ToolGrid from '../components/ToolGrid';
 import AdSlot from '../components/AdSlot';
+import { VideoIcon, BookOpenIcon, ImageIcon } from '../components/Icons';
 ---
 
 <Layout 
-  title="Toolix - Free Online Media & PDF Tools (WASM Browser Engine)"
-  description="Convert video to MP3 audio, merge PDF files, split PDFs, trim video clips, compress images, and convert formats 100% in your browser safely without server uploads."
+  title="Toolix - Free Media & PDF Tools"
+  description="Convert video to MP3 audio, merge PDF files, split PDFs, trim video clips, compress images, and convert format files instantly."
 >
   
   <!-- Hero Section -->
-  <section class="relative py-16 md:py-24 overflow-hidden border-b border-white/5">
-    <div class="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]"></div>
-    
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-6">
+  <section class="relative py-12 md:py-16 overflow-hidden border-b border-black/5 dark:border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center space-y-4">
       
-      <!-- Privacy Badge -->
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-semibold shadow-inner">
-        <span>🔒 100% Client-Side WebAssembly Processing</span>
-      </div>
-
       <!-- Main Headline -->
-      <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-tight">
-        Free Media & PDF Tools. <br class="hidden sm:inline" />
-        <span class="gradient-text">Zero Server Uploads.</span>
+      <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 max-w-3xl mx-auto leading-tight">
+        Free Media & PDF Tools. <br />
+        <span class="gradient-text">Fast & Simple.</span>
       </h1>
 
       <!-- Subtitle -->
-      <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
-        Extract audio, merge PDFs, trim videos, and convert format files instantly inside your browser using WASM. Fast, private, and 100% free forever.
+      <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
+        Extract audio, merge PDFs, trim videos, and convert format files instantly. Free forever with zero file size limits.
       </p>
 
     </div>
   </section>
 
-  <!-- Top AdSense Banner -->
+  <!-- Top AdSlot -->
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
     <AdSlot client:only="solid-js" format="horizontal" />
   </div>
 
   <!-- Interactive Tools Grid Section -->
-  <section class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section class="py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <ToolGrid client:only="solid-js" />
   </section>
 
-  <!-- Features & Privacy Guarantee Section -->
-  <section id="about" class="py-16 bg-slate-950/60 border-t border-b border-white/5">
+  <!-- Features Section -->
+  <section id="about" class="py-12 bg-slate-100/60 dark:bg-slate-950/60 border-t border-b border-black/5 dark:border-white/5">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
-      <div class="text-center max-w-2xl mx-auto mb-12 space-y-3">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Why Toolix is Built Different</h2>
-        <p class="text-xs sm:text-sm text-slate-400">Traditional online converters upload your private files to remote servers. Toolix runs standard binary WASM compilers directly in your web browser.</p>
+      <div class="text-center max-w-xl mx-auto mb-8 space-y-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-slate-100">Designed for Speed & Efficiency</h2>
+        <p class="text-xs text-slate-600 dark:text-slate-400">All tools operate instantly directly within your browser window.</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         
-        <div class="glass-card rounded-2xl p-6 space-y-3">
-          <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-xl">
-            ⚡
+        <div class="glass-card rounded-md p-5 space-y-2">
+          <div class="w-8 h-8 rounded bg-[#FA9A85]/10 border border-[#FA9A85]/20 text-[#FA9A85] flex items-center justify-center font-bold text-sm">
+            <VideoIcon class="w-4 h-4" />
           </div>
-          <h3 class="text-base font-bold text-white">WASM Performance</h3>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Compiled directly from C/C++ libraries (FFmpeg) into WebAssembly, achieving near-native multi-threaded execution speeds right inside Chrome, Firefox, Safari, or Edge.
+          <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Video & Audio Processing</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            Extract high-fidelity MP3 audio, trim video timestamps, compress sizes, and convert formats seamlessly.
           </p>
         </div>
 
-        <div class="glass-card rounded-2xl p-6 space-y-3">
-          <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xl">
-            🔒
+        <div class="glass-card rounded-md p-5 space-y-2">
+          <div class="w-8 h-8 rounded bg-[#E6986C]/10 border border-[#E6986C]/20 text-[#E6986C] flex items-center justify-center font-bold text-sm">
+            <BookOpenIcon class="w-4 h-4" />
           </div>
-          <h3 class="text-base font-bold text-white">Total Data Privacy</h3>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Your sensitive videos, legal PDFs, photos, and audio files never leave your device. Processing happens 100% locally on your machine.
+          <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">PDF Suite</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            Merge multiple PDF files, extract page ranges, convert PDF pages to PNG/JPG, and rotate document orientations.
           </p>
         </div>
 
-        <div class="glass-card rounded-2xl p-6 space-y-3">
-          <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xl">
-            ♾️
+        <div class="glass-card rounded-md p-5 space-y-2">
+          <div class="w-8 h-8 rounded bg-[#B0A6DF]/10 border border-[#B0A6DF]/20 text-[#B0A6DF] flex items-center justify-center font-bold text-sm">
+            <ImageIcon class="w-4 h-4" />
           </div>
-          <h3 class="text-base font-bold text-white">No Limits or Subscriptions</h3>
-          <p class="text-xs text-slate-400 leading-relaxed">
-            Convert 100GB videos or merge 500-page PDF files without queue waiting times, file size caps, watermarks, or account registration requirements.
+          <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Image Utilities</h3>
+          <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            Convert photos between WebP, PNG, and JPG formats with quality compression controls.
           </p>
         </div>
 
@@ -90,8 +84,8 @@ import AdSlot from '../components/AdSlot';
     </div>
   </section>
 
-  <!-- Bottom AdSense Banner -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Bottom AdSlot -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
     <AdSlot client:only="solid-js" format="horizontal" />
   </div>
 
