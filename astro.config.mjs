@@ -9,6 +9,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     server: {
+      allowedHosts: ['toolix.deolang.com', '.deolang.com', 'localhost'],
       headers: {
         // Security headers for FFmpeg WASM and SharedArrayBuffer performance
         'Cross-Origin-Opener-Policy': 'same-origin',
@@ -17,7 +18,7 @@ export default defineConfig({
       },
     },
     preview: {
-      allowedHosts: true,
+      allowedHosts: ['toolix.deolang.com', '.deolang.com', 'localhost'],
       headers: {
         'Cross-Origin-Opener-Policy': 'same-origin',
         'Cross-Origin-Embedder-Policy': 'require-corp',
@@ -26,5 +27,6 @@ export default defineConfig({
     },
   },
 });
+
 
 
